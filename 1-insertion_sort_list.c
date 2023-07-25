@@ -66,7 +66,7 @@ void swap_nodes(listint_t **list, listint_t *curr)
 {
 	listint_t *hold, *currn;
 
-	if (curr->next->next == NULL) 
+	if (curr->next->next == NULL)
 	{
 		hold = curr->next;
 		curr->prev->next = hold;
