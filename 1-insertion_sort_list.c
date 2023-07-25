@@ -11,7 +11,7 @@
 
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *curr, *temp, *currn, *hold;
+	listint_t *curr, *temp;
 	int swap = 1;
 
 	temp = *list;
@@ -24,38 +24,19 @@ void insertion_sort_list(listint_t **list)
 		{
 			if (temp->next->next == NULL)
 			{
-				hold = curr->next;
-				curr->prev->next = hold;
-				hold->prev = curr->prev;
-				curr->prev = hold;
-				hold->next = curr;
-				curr->next = NULL;
-
+				swap_nodes(list, curr);
 				print_list(*list);
 				swap = 2;
 			}
 			else if (curr->prev == NULL)
 			{
-				hold = curr->next;
-				curr->next = hold->next;
-				hold->next->prev = curr;
-				curr->prev = hold;
-				hold->next = curr;
-				hold->prev = NULL;
-				*list = hold;
+				swap_nodes(list, curr);
 				print_list(*list);
 				swap = 2;
 			}
 			else
 			{
-				hold = curr->prev;
-				currn = curr->next;
-				curr->next = currn->next;
-				curr->prev = currn;
-				currn->next->prev = curr;
-				currn->next = curr;
-				currn->prev = hold;
-				hold->next = currn;
+				swap_nodes(list, curr);
 				print_list(*list);
 				swap = 2;
 			}
@@ -69,5 +50,50 @@ void insertion_sort_list(listint_t **list)
 			continue;
 		}
 		temp = temp->next;
+	}
+}
+
+/**
+ * swap_nodes - swaps nodes
+ *
+ * @list: linked list
+ * @curr: current node
+ *
+ * Return: void
+ */
+
+void swap_nodes(listint_t **list, listint_t *curr)
+{
+	listint_t *hold, *currn;
+
+	if (curr->next->next == NULL) 
+	{
+		hold = curr->next;
+		curr->prev->next = hold;
+		hold->prev = curr->prev;
+		curr->prev = hold;
+		hold->next = curr;
+		curr->next = NULL;
+	}
+	else if (curr->prev == NULL)
+	{
+		hold = curr->next;
+		curr->next = hold->next;
+		hold->next->prev = curr;
+		curr->prev = hold;
+		hold->next = curr;
+		hold->prev = NULL;
+		*list = hold;
+	}
+	else
+	{
+		hold = curr->prev;
+		currn = curr->next;
+		curr->next = currn->next;
+		curr->prev = currn;
+		currn->next->prev = curr;
+		currn->next = curr;
+		currn->prev = hold;
+		hold->next = currn;
 	}
 }
