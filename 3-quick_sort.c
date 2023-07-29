@@ -30,14 +30,19 @@ void quick_sort(int *array, size_t size)
 
 void r_sort(int *array, size_t low, size_t high, size_t size)
 {
-	int part;
+	size_t part;
 
 	if (low < high)
 	{
 		part = partition(array, low, high, size);
-		if (part - 1 <= 0)
+		if (part == low)
 		{
 			r_sort(array, part + 1, high, size);
+			return;
+		}
+		else if (part == high)
+		{
+			r_sort(array, low, part - 1, size);
 			return;
 		}
 		r_sort(array, low, part - 1, size);
@@ -67,15 +72,19 @@ size_t partition(int *array, size_t low, size_t high, size_t size)
 	pivot = array[high];
 	for (start = low; start < high; start++)
 	{
-		if (array[start] <= pivot)
+		if (array[start] < pivot)
 		{
 			i++;
+			if (i == start)
+				continue;
 			hold = array[i];
 			array[i] = array[start];
 			array[start] = hold;
-			/*print_array(array, size);*/
+			print_array(array, size);
 		}
 	}
+	if (i + 1 == high)
+		return (i + 1);
 	hold = array[i + 1];
 	array[i + 1] = array[high];
 	array[high] = hold;
